@@ -1,0 +1,19 @@
+{
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "check-db": "node src/database/checkDatabase.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "mssql": "^12.1.1"
+  },
+  "name": "express",
+  "version": "1.0.0",
+  "description": "a simple backend with express js and connect with sql server database",
+  "main": "index.js",
+  "author": "cunwf",
+  "license": "ISC"
+}
