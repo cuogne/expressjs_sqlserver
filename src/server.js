@@ -8,8 +8,6 @@ app.use('/api', routes);
 
 async function startServer() {
     try {
-        console.log('Starting server...');
-
         // start server
         const server = app.listen(PORT, () => {
             console.log(`Server is running on port ${PORT}`);
