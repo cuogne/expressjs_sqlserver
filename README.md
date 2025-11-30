@@ -12,6 +12,12 @@ npm install
 touch .env
 ```
 
+> You may switch branch to `postgresql` if main branch is main
+
+```zsh
+git checkout postgresql
+```
+
 3. add your environment variables to .env file, refer to .env.example file
 
 > only need to add values for DB_DATABASE, DB_USER, DB_PASSWORD
@@ -26,7 +32,7 @@ DB_PASSWORD=YourPassword        # change to your database password
 ...
 ```
 
-4. run postgresql, run script sql in `src/database/script.sql` to create sample database and table with data.
+4. create a database name with name is same as in .env before runnning postgresql, run script sql in `src/database/script.sql` to create sample database and table with data.
 
 Read more: [guide](/POSTGRESQL_VSCODE_GUIDE.md)
 
