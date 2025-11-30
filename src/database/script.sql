@@ -1,31 +1,21 @@
-create database test_backend
-go
-use test_backend 
-go 
+DROP DATABASE IF EXISTS test_backend;
 
-use tempdb
-go
+CREATE DATABASE test_backend;
 
-if exists (select * from sys.databases where name = 'test_backend')
-begin
-    alter database test_backend set single_user with rollback immediate
-    drop database test_backend
-end
-go
+DROP TABLE IF EXISTS Student CASCADE;
 
-create table Student 
-(
-    MaSV char(5) primary key,
-    HoTen nvarchar(50),
-    GioiTinh nvarchar(7),
-    TruongDaiHoc nvarchar(50),
-    NgaySinh datetime
-)
+CREATE TABLE Student (
+    MaSV CHAR(5) PRIMARY KEY,
+    HoTen VARCHAR(50),
+    GioiTinh VARCHAR(7),
+    TruongDaiHoc VARCHAR(50),
+    NgaySinh DATE
+);
 
-insert into Student values
-('SV001', N'Nguyễn Văn Tèo', 'Male', N'Khoa học tự nhiên', '2005-06-11'),
-('SV002', N'Nguyễn Thị Bé Tư', 'Female', N'Bách Khoa', '2004-09-23'),
-('SV003', N'Nguyễn Tấn Dũng', 'Male', N'Kinh tế Luật', '2005-12-13'),
-('SV004', N'Nguyễn Văn X', 'Male', N'UIT', '2005-09-08')
+INSERT INTO Student VALUES
+('SV001', 'Nguyễn Văn Tèo', 'Male', 'Khoa học tự nhiên', '2005-06-11'),
+('SV002', 'Nguyễn Thị Bé Tư', 'Female', 'Bách Khoa', '2004-09-23'),
+('SV003', 'Nguyễn Tấn Dũng', 'Male', 'Kinh tế Luật', '2005-12-13'),
+('SV004', 'Nguyễn Văn X', 'Male', 'UIT', '2005-09-08');
 
-select * from Student
+SELECT * FROM Student;

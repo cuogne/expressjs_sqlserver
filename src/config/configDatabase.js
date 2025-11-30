@@ -1,25 +1,18 @@
-const sql = require('mssql');
+const { Pool } = require('pg');
 require('dotenv').config();
 
 const config = {
-    server: process.env.DB_SERVER || 'localhost',
+    host: process.env.DB_HOST || 'localhost',
     database: process.env.DB_DATABASE,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    port: parseInt(process.env.DB_PORT) || 1433,
-    options: {
-        encrypt: process.env.DB_ENCRYPT === 'true',
-        trustServerCertificate: process.env.DB_TRUST_SERVER_CERTIFICATE === 'true',
-        enableArithAbort: true
-    },
-    pool: {
-        max: 10,
-        min: 0,
-        idleTimeoutMillis: 30000
-    }
+    port: parseInt(process.env.DB_PORT) || 5432,
+    max: 10,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 2000,
 };
 
-let pool = null // create a pool connection
+let pool = null;
 
 // connect to database
 async function connect() {
@@ -28,8 +21,13 @@ async function connect() {
             return pool;
         }
 
-        pool = await sql.connect(config);
-        console.log('Connected to SQL Server');
+        pool = new Pool(config);
+
+        // Test connection
+        const client = await pool.connect();
+        console.log('Connected to PostgreSQL');
+        client.release();
+
         return pool;
     }
     catch (err) {
@@ -42,7 +40,7 @@ async function connect() {
 async function close() {
     try {
         if (pool) {
-            await pool.close();
+            await pool.end();
             pool = null;
             console.log('Database connection closed.');
         }
@@ -56,14 +54,20 @@ async function close() {
 async function query(queryString, params = {}) {
     try {
         const pool = await connect();
-        const request = pool.request();
 
-        // add parameters to the request
-        for (const param in params) {
-            request.input(param, params[param]);
-        }
+        // Convert params object to array for PostgreSQL
+        // PostgreSQL uses $1, $2, $3... instead of named parameters
+        const paramKeys = Object.keys(params);
+        const paramValues = paramKeys.map(key => params[key]);
 
-        const result = await request.query(queryString);
+        // Replace @paramName with $1, $2, etc.
+        let pgQuery = queryString;
+        paramKeys.forEach((key, index) => {
+            const regex = new RegExp(`@${key}\\b`, 'g');
+            pgQuery = pgQuery.replace(regex, `$${index + 1}`);
+        });
+
+        const result = await pool.query(pgQuery, paramValues);
         return result;
     } catch (err) {
         console.error('Query Failed: ', err);
@@ -75,5 +79,5 @@ module.exports = {
     connect,
     close,
     query,
-    sql
+    pool
 };

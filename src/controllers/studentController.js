@@ -30,8 +30,8 @@ async function getAllStudents(req, res) {
         const result = await db.query(query, params);
 
         res.status(200).json({
-            data: result.recordset,
-            count: result.recordset.length
+            data: result.rows, // PostgreSQL dùng .rows thay vì .recordset
+            count: result.rows.length
         });
     } catch (error) {
         console.error('Error fetching students: ', error);

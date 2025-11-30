@@ -1,4 +1,4 @@
-## How to run:
+## How to run (for PostgreSQL):
 1. clone repo
 ```
 git clone https://github.com/cuogne/expressjs_sqlserver.git
@@ -14,17 +14,21 @@ touch .env
 
 3. add your environment variables to .env file, refer to .env.example file
 
-> only need to add values for DB_DATABASE and DB_PASSWORD
+> only need to add values for DB_DATABASE, DB_USER, DB_PASSWORD
 
 ```terminal
 ...
 DB_DATABASE= your_database_name # change to your database name
 ...
+DB_USER= your_database_user     # change to your database user
+...
 DB_PASSWORD=YourPassword        # change to your database password
 ...
 ```
 
-4. run sql server on mssql or docker, run script sql in `src/database/script.sql` to create sample database and table with data.
+4. run postgresql, run script sql in `src/database/script.sql` to create sample database and table with data.
+
+Read more: [guide](/POSTGRESQL_VSCODE_GUIDE.md)
 
 5. start server
 ```terminal

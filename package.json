@@ -7,11 +7,11 @@
   "dependencies": {
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
-    "mssql": "^12.1.1"
+    "pg": "^8.16.3"
   },
   "name": "express",
   "version": "1.0.0",
-  "description": "a simple backend with express js and connect with sql server database",
+  "description": "a simple backend with express js and connect with postgresql database",
   "main": "index.js",
   "author": "cunwf",
   "license": "ISC"
