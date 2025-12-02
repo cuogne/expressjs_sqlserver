@@ -12,10 +12,10 @@ npm install
 touch .env
 ```
 
-> You may switch branch to `postgresql` if main branch is main
+> You may switch branch to `cinemax` if main branch is main
 
 ```zsh
-git checkout postgresql
+git checkout cinemax
 ```
 
 3. add your environment variables to .env file, refer to .env.example file
@@ -28,13 +28,18 @@ DB_DATABASE= your_database_name # change to your database name
 ...
 DB_USER= your_database_user     # change to your database user
 ...
-DB_PASSWORD=YourPassword        # change to your database password
+DB_PASSWORD= YourPassword        # change to your database password
 ...
 ```
 
-4. create a database name with name is same as in .env before runnning postgresql, run script sql in `src/database/script.sql` to create sample database and table with data.
+4. create a database with the same name as specified in .env file, then run the SQL script in `src/database/movie.sql` to create sample tables and data
 
-Read more: [guide](/POSTGRESQL_VSCODE_GUIDE.md)
+```terminal
+psql -U your_database_user -d postgres
+CREATE DATABASE your_database_name;
+\c your_database_name
+\i src/database/movie.sql
+```
 
 5. start server
 ```terminal
@@ -43,26 +48,26 @@ npm start
 
 6. test api with postman or browser
 ```
-GET http://localhost: your_port_number /api/...
+GET http://localhost:your_port_number/api/v1/movies
 ```
 
 ## Folder Structure
 
 ```
-expressjs_sqlserver/
+expressjs/
 ├── src/
 │   ├── app.js
 │   ├── server.js
 │   ├── config/
-│   │   └── configDatabase.js
+│   │   └── database.config.js
 │   ├── routes/
-│   │   └── studentRoutes.js
+│   │   └── movie.routes.js
 │   ├── controllers/
-│   │   └── studentController.js
+│   │   └── movie.controller.js
 │   ├── models/
 │   ├── middleware/
 │   └── database/
-│       └── script.sql
+│       └── movie.sql
 ├── .env.example
 ├── package.json
 └── README.md
